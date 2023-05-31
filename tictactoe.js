@@ -6,12 +6,16 @@ player1 = createPlayer('player1', 'X');
 player2 =createPlayer('player2', 'O');
 playerList.push(player1);
 playerList.push(player2)
+//module that returns a controlBoard
 const controlBoard = (function ()
 {
     gameBoard = {}
     gameBoard['A'] = []
     gameBoard['B'] = []
     gameBoard['C'] = []
+    //turn tracker value
+    let currentTurn = player1;
+    let gameInProgress = true;
     const createCells = () =>
     {
         for (row in gameBoard)
@@ -23,19 +27,37 @@ const controlBoard = (function ()
         }
     }
 
-
-    const playTurn = (player, row, pos) =>
+    //dont need to pass currentTurn to playTurn it already has access
+    const playTurn = ( row, pos) =>
     {//adds a player marker to the grid
         row = row.toUpperCase()
-        pos = pos -1
+        
         if (! row in Object.keys(gameBoard) || pos < 0 || pos >2)
         {
-            console.log('INPUT A VALID MOVE')
+            console.log('INPUT A VALID MOVE');
             return;
         }
-        gameBoard[row][pos] = player['marker'];
+        //check if already occupied
+        else if (checkCell(row,pos) != " ")
+        {
+            console.log("Already Occupied");
+            return;
+
+        }
+        gameBoard[row][pos] = currentTurn['marker'];
+        //change player turn
+        if (currentTurn == player1)
+        {
+            currentTurn = player2;
+        }
+        else
+        {
+            currentTurn = player1;
+        }
         //shows the current board state
+        
         displayBoard();
+        console.log(`${currentTurn['name']}'s turn`)
         checkGameEnd();
     }
 
@@ -80,6 +102,7 @@ const controlBoard = (function ()
                 console.log("horizontal win")
                 winner = determineWinner(gameBoard[key][0])
                 console.log(`Game Over Winner : ${winner}`)
+                gameInProgress = false;
             
             }
         }
@@ -92,6 +115,7 @@ const controlBoard = (function ()
                 console.log(i)
                 winner = determineWinner(gameBoard['A'][i])
                 console.log(`Game Over Winner : ${winner}`)
+                gameInProgress = false;
             }
         }
         //diagonal wins
@@ -100,17 +124,26 @@ const controlBoard = (function ()
             console.log("Diagonal Win")
             winner = determineWinner(gameBoard["A"][0])
             console.log(`Game Over Winner : ${winner}`)
+            gameInProgress = false;
         }
         else if ((gameBoard['A'][2]!=" "&&gameBoard['B'][1]!= " "&&gameBoard['C'][0]!= " ")&&(gameBoard['A'][2] == gameBoard["B"][1] && gameBoard['A'][2] == gameBoard['C'][0]))
         {
             console.log("Diagonal Win")
             winner = determineWinner(gameBoard["A"][2])
             console.log(`Game Over Winner : ${winner}`)
+            gameInProgress = false;
         }
     }
+    //check cell marker
+    const checkCell = (row,pos) =>
+    {
+        return gameBoard[row][pos]
+    }
     createCells();
+
+
     
-    return {playTurn, displayBoard};
+    return {playTurn, displayBoard, checkCell};
 })();
 
 //displays empty board
@@ -118,7 +151,12 @@ controlBoard.displayBoard();
 
 
 
-//game sequence
+//game sequence function
+// function playGame (player1, player2, gameBoard)
+// {
+//     alert('game start')
+    
+// }
 
 
 
@@ -133,40 +171,16 @@ function createPlayer (name, marker)
     return {name, marker, checkWins}
 }
 
+//turn tracker function
 
 
+document.addEventListener("DOMContentLoaded", function()
+{
+  //add event listener play turn to the boxes, getting position from id
+    gridSquareList = document.querySelectorAll(".grid");
+    for (let i = 0; i<gridSquareList.length; i++)
+    {
 
+    }
 
-
-
-
-
-//board made of 3 arrays each with 3 cell each
-//make object for each cell grid
-
-
-// function createBoardCell (row)
-// {
-//     boardCell = {};
-//     boardCell['row'] = row;
-//     boardCell['marker'] = ' ';
-       
-//     boardCell.getValue= () =>
-//     {
-//         return boardCell.marker;
-//     }
-//     return boardCell;
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
+})
