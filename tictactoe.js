@@ -28,37 +28,43 @@ const controlBoard = (function ()
     }
 
     //dont need to pass currentTurn to playTurn it already has access
-    const playTurn = ( row, pos) =>
+    const playTurn = function (row, pos) 
     {//adds a player marker to the grid
-        row = row.toUpperCase()
+        if(gameInProgress==true)
+        {
+            row = row.toUpperCase()
+            
         
-        if (! row in Object.keys(gameBoard) || pos < 0 || pos >2)
-        {
-            console.log('INPUT A VALID MOVE');
-            return;
+            if (! row in Object.keys(gameBoard) || pos < 0 || pos >2)
+            {
+                console.log('INPUT A VALID MOVE');
+                return;
+            }
+            //check if already occupied
+            else if (checkCell(row,pos) != " ")
+            {
+                console.log("Already Occupied");
+                return;
+    
+            }
+            gameBoard[row][pos] = currentTurn['marker'];
+            //change player turn
+            this.textContent = currentTurn['marker'];
+            if (currentTurn == player1)
+            {
+                currentTurn = player2;
+            }
+            else
+            {
+                currentTurn = player1;
+            }
+            //shows the current board state
+            
+            displayBoard();
+            console.log(`${currentTurn['name']}'s turn`)
+            checkGameEnd();
         }
-        //check if already occupied
-        else if (checkCell(row,pos) != " ")
-        {
-            console.log("Already Occupied");
-            return;
-
-        }
-        gameBoard[row][pos] = currentTurn['marker'];
-        //change player turn
-        if (currentTurn == player1)
-        {
-            currentTurn = player2;
-        }
-        else
-        {
-            currentTurn = player1;
-        }
-        //shows the current board state
-        
-        displayBoard();
-        console.log(`${currentTurn['name']}'s turn`)
-        checkGameEnd();
+       
     }
 
 
@@ -111,26 +117,25 @@ const controlBoard = (function ()
         {
             if ((gameBoard['A'][i]!= " "&&gameBoard['B'][i]!=" "&&gameBoard['C'][i]!= ' ')&&(gameBoard['A'][i]==gameBoard['B'][i]&&gameBoard['A'][i]==gameBoard['C'][i]))
             {
-                console.log("vertical win")
-                console.log(i)
+              
                 winner = determineWinner(gameBoard['A'][i])
-                console.log(`Game Over Winner : ${winner}`)
+                alert(`Game Over Winner : ${winner}`)
                 gameInProgress = false;
             }
         }
         //diagonal wins
         if ((gameBoard['A'][0]!=" "&&gameBoard['B'][1]!= " "&&gameBoard['C'][2]!= " ")&&(gameBoard['A'][0] == gameBoard['B'][1]&&gameBoard['A'][0]==gameBoard['C'][2]))
         {
-            console.log("Diagonal Win")
+            
             winner = determineWinner(gameBoard["A"][0])
-            console.log(`Game Over Winner : ${winner}`)
+            alert(`Game Over Winner : ${winner}`)
             gameInProgress = false;
         }
         else if ((gameBoard['A'][2]!=" "&&gameBoard['B'][1]!= " "&&gameBoard['C'][0]!= " ")&&(gameBoard['A'][2] == gameBoard["B"][1] && gameBoard['A'][2] == gameBoard['C'][0]))
         {
-            console.log("Diagonal Win")
+           
             winner = determineWinner(gameBoard["A"][2])
-            console.log(`Game Over Winner : ${winner}`)
+            alert(`Game Over Winner : ${winner}`)
             gameInProgress = false;
         }
     }
@@ -141,9 +146,26 @@ const controlBoard = (function ()
     }
     createCells();
 
+    const startGame = function()
+    {
+        gameInProgress = true;
+        gridSquareList = document.querySelectorAll(".grid")
+        for ( let i =0; i < gridSquareList.length; i++)
+        {
+            gridSquareList[i].textContent = "";
 
+        }
+        currentTurn = player1;
+        for (row in gameBoard)
+        {
+            for(let i = 0; i < gameBoard[row].length; i++)
+            {
+                gameBoard[row][i]= " ";
+            }
+        }
+    }
     
-    return {playTurn, displayBoard, checkCell};
+    return {playTurn, displayBoard, checkCell, startGame};
 })();
 
 //displays empty board
@@ -176,11 +198,25 @@ function createPlayer (name, marker)
 
 document.addEventListener("DOMContentLoaded", function()
 {
+    //TODO MAKE EVENT LISTENER THAT STARTS THE GAME
   //add event listener play turn to the boxes, getting position from id
+    startButton = document.querySelector("#start-button")
+    startButton.addEventListener("click",function()
+    {
+        controlBoard.startGame()
+    })
     gridSquareList = document.querySelectorAll(".grid");
     for (let i = 0; i<gridSquareList.length; i++)
     {
-
+        let gridID = gridSquareList[i].getAttribute("id");
+        gridSquareList[i].addEventListener("click", function()
+        {
+            console.log(gridID[0],gridID[1])
+            // gridSquareList[i].textContent = currentTurn['marker']
+            controlBoard.playTurn.call(gridSquareList[i], gridID[0], Number(gridID[1])-1);
+            
+        })
+        
     }
-
+    //for player names TODO
 })
