@@ -102,6 +102,17 @@ const controlBoard = (function ()
     //check if game is over
     const checkGameEnd = () =>
     {
+        let remaining = 0;
+        for (row in gameBoard)
+        {
+            for (let i =0; i < gameBoard[row].length; i++)
+            {
+                if (gameBoard[row][i] == " ")
+                {
+                    remaining +=1;
+                }
+            }
+        }
         //check for all horizontal wins
         for (key in gameBoard)
         {
@@ -138,6 +149,13 @@ const controlBoard = (function ()
            
             winner = determineWinner(gameBoard["A"][2])
             alert(`Game Over Winner : ${winner}`)
+            gameInProgress = false;
+        }
+        //check for draws
+        
+        else if (remaining == 0)
+        {
+            alert("DRAW");
             gameInProgress = false;
         }
     }

@@ -48,6 +48,11 @@ body{
 .player-display>button{
     width:10vw;
 }
+.player-display>img{
+    height:10vh;
+    width: 5vw;
+    border-radius: 50%;
+}
 .board-container{
     height:100%;
     display:flex;
