@@ -16,7 +16,12 @@
             <button id="start-button">Reset</button>
         </div>
         <div class="game-display">
-            <div class="player-display" id="player1"></div>
+            <div class="player-display" id="player1">
+                <p id="player1-Name">player1</p>
+                <label for = "player1name">Name?</label>
+                <input name="player1name" type="text" placeholder="player1" autofocus>
+                <button id="player1change" type = "button">Change Name</button>
+            </div>
             <div class="board-container">
                 <div class="game-board">
                     <div class = "row" id="row-a">
@@ -36,7 +41,12 @@
                     </div>
                 </div>
             </div>
-            <div class="player-display" id = "player2"></div>
+            <div class="player-display" id = "player2">
+                <p id="player2-Name">player2</p>
+                <label for = "player2name">Name?</label>
+                <input name="player2name" type="text" placeholder="player2">
+                <button id="player2change" type = "button">Change Name</button>
+            </div>
         </div>
     </div>
 </body>

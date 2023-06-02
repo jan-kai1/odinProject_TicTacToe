@@ -1,11 +1,13 @@
 
 
-    //module for gameboard
+    
 playerList = [];
 player1 = createPlayer('player1', 'X');
 player2 =createPlayer('player2', 'O');
 playerList.push(player1);
 playerList.push(player2)
+
+
 //module that returns a controlBoard
 const controlBoard = (function ()
 {
@@ -219,4 +221,26 @@ document.addEventListener("DOMContentLoaded", function()
         
     }
     //for player names TODO
+    //playerList[0] is player1
+    player1Button = document.querySelector("#player1change");
+    player1Button.addEventListener("click", function()
+    {   
+        
+        let player1Name = document.querySelector("[name=player1name]").value
+        nameDisplay1 = document.querySelector("#player1-Name")
+        player1['name'] = player1Name;
+        nameDisplay1.textContent = player1Name;
+
+    })
+    player2Button = document.querySelector("#player2change");
+    player2Button.addEventListener("click", function()
+    {
+        let player2Name = document.querySelector("[name=player2name]").value
+        nameDisplay2 = document.querySelector("#player2-Name");
+
+        player2['name'] = player2Name;
+        nameDisplay2.textContent = player2Name;
+    })
+
+
 })

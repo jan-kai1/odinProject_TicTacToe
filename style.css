@@ -21,7 +21,7 @@ body{
 .container{
     display:grid;
     grid-template: 1fr 5fr/ 1fr;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     height:100%;
 
 }
@@ -38,11 +38,21 @@ body{
     grid-template: 1fr/ 1fr 5fr 1fr;
     height:100%;
 }
+.player-display{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:5vh;
+    align-items: center;
+}
+.player-display>button{
+    width:10vw;
+}
 .board-container{
     height:100%;
     display:flex;
     justify-content: center;
-    border:2px solid white;
+    /* border:2px solid white; */
 }
 
 button{
@@ -64,7 +74,7 @@ button{
 }
 .game-board>.row{
     flex:1;
-    border: 2px solid green;
+    /* border: 2px solid green; */
     display:flex;
 }
 .row{
