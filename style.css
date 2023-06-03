@@ -23,7 +23,15 @@ body{
     grid-template: 1fr 5fr/ 1fr;
     /* border: 2px solid red; */
     height:100%;
-
+    position: relative;
+}
+.pop-up
+{
+    position: absolute;
+    top:45vh;
+    left:45vw;
+    width:20vw;
+    height:20vh;
 }
 .control-panel{
     grid-area: 1/1/2/2;
